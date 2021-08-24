@@ -43,4 +43,11 @@ public class SessionGameShould
         //Then
         Assert.AreEqual(20, _session.Score);
     }
+    public void ScoreShouldReturn30() {
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+
+        Assert.AreEqual(30, _session.Score);
+    }
 }

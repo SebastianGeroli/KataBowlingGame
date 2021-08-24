@@ -106,5 +106,29 @@ namespace Tests
             //Then
             Assert.IsTrue(turn.Score >= 0);
         }
+        [Test]
+        public void Finish_After_Two_Shoots() {
+          
+            //When
+            turn.Shoot(0);
+            turn.Shoot(10);
+            //Then
+            Assert.IsTrue(turn.IsCompleted);
+        }
+        [Test]
+        public void Finish_After_Strike() {
+            //When
+            turn.Shoot(10);
+            //Then
+            Assert.IsTrue(turn.IsCompleted);
+        }
+        [Test]
+        public void Not_Finish_After_First_Shoot_And_Is_No_Strike() {
+            //When
+            turn.Shoot(9);
+            //Assert
+            Assert.IsFalse(turn.IsCompleted);
+        }
+        
     }
 }
