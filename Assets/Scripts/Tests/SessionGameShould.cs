@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
@@ -21,33 +22,22 @@ public class SessionGameShould
         Assert.AreEqual(10, turnsCount);
     }
 
-    [Test]
-    public void ScoreShouldReturn15()
-    {
-        
-        //When
-        _session.Shoot(0);
-        _session.Shoot(10);
-        _session.Shoot(5);
-        //Then
-        Assert.AreEqual(15, _session.Score);
-    }
-
-    [Test]
-    public void ScoreShouldReturn20()
+    
+    [TestCase(70,3,4,3,4,3,4,3,4,3,4,3,4,3,4,3,4,3,4,3,4)]
+    [TestCase(190,9,1,9,1,9,1,9,1,9,1,9,1,9,1,9,1,9,1,9,1,9)]
+    [TestCase(237,10,10,10,10,10,10,10,10,9,0,0,0)]
+    [TestCase(257,10,10,10,10,10,10,10,10,9,0,10,9,1)]
+    [TestCase(264,10,10,10,10,10,10,10,10,10,8,0)]
+    [TestCase(300,10,10,10,10,10,10,10,10,10,10,10,10)]
+    public void ReturnCorrectScoreWithShootsTaken(int expected, params int[] shoots)
     {
         //When
-        _session.Shoot(0);
-        _session.Shoot(10);
-        _session.Shoot(10);
-        //Then
-        Assert.AreEqual(20, _session.Score);
-    }
-    public void ScoreShouldReturn30() {
-        _session.Shoot(10);
-        _session.Shoot(10);
-        _session.Shoot(10);
+        foreach (var shoot in shoots)
+        {
+            _session.Shoot(shoot);
+        }
 
-        Assert.AreEqual(30, _session.Score);
+        //Then
+        Assert.AreEqual(expected, _session.Score);
     }
 }
