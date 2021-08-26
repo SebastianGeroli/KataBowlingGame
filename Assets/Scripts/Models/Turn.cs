@@ -12,6 +12,9 @@ public class Turn
     public int Score => Result();
     public int ScoreFirstShoot => _shoots[0];
     public bool IsCompleted => CheckCompleted();
+    public int ScoreSecondShoot => _shoots[1];
+
+    public int CalculatedScore { get; set; } = 0;
 
     private bool CheckCompleted()
     {
@@ -24,11 +27,26 @@ public class Turn
         if (amountOfPinesFallen > 10) return;
         if (amountOfPinesFallen < 0) return;
         if (_shootNumber >= _shoots.Length) return;
-        _shoots[_shootNumber] = amountOfPinesFallen;
+        if (_shootNumber == 1)
+        {
+            if (_shoots[0] + amountOfPinesFallen <= 10)
+            {
+                _shoots[_shootNumber] = amountOfPinesFallen;
+            }
+            else
+            {
+                _shoots[_shootNumber] = 10 - _shoots[0];
+            }
+        }
+        else
+        {
+            _shoots[_shootNumber] = amountOfPinesFallen;
+        }
+
         _shootNumber++;
     }
 
-   private bool GetIsSpare()
+    private bool GetIsSpare()
     {
         if (IsStrike) return false;
         return (_shoots[0] + _shoots[1]) == 10;

@@ -8,6 +8,41 @@ public class SessionGame
     private int _firstBonusShoot = 0;
     private int _secondBonusShoot = 0;
     public int Score => CalculateScore();
+    public bool isFinished => CheckSessionFinished();
+    public int GetActualTurnIndex => actualIndexTurn;
+
+    private bool CheckSessionFinished()
+    {
+        for (int i = 0; i < _turns.Length; i++)
+        {
+            if (!_turns[i].IsCompleted)
+            {
+                return false;
+            }
+        }
+
+        if (_turns[9].IsStrike)
+        {
+            if (actualIndexTurn > 11)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        if (_turns[9].IsSpare)
+        {
+            if (actualIndexTurn > 10)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        return true;
+    }
 
     public SessionGame()
     {
@@ -22,7 +57,7 @@ public class SessionGame
         int score = 0;
         for (int i = 0; i < _turns.Length; i++)
         {
-            score += GetTurnScore(i);
+            _turns[i].CalculatedScore = score += GetTurnScore(i);
         }
 
         return score;
@@ -98,5 +133,6 @@ public class SessionGame
         }
 
         _turns[actualIndexTurn].Shoot(amount);
+        return;
     }
 }

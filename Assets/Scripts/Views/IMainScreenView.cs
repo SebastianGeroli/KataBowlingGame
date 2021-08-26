@@ -4,5 +4,6 @@ using UnityEngine;
 
 public interface IMainScreenView 
 {
-    
+    void Refresh();
+    void ShowEndPanelGame();
 }
