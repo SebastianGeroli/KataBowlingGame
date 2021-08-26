@@ -7,20 +7,20 @@ public class MainScreenPresenter
 {
     IMainScreenView mainScreenView;
     private SessionGame sessionGame = new SessionGame();
-    public MainScreenPresenter(IMainScreenView mainScreenView) {
+
+    public MainScreenPresenter(IMainScreenView mainScreenView)
+    {
         this.mainScreenView = mainScreenView;
     }
 
 
     public void Shoot()
     {
-        
-        sessionGame.Shoot(Random.Range(0,11));
+        sessionGame.Shoot(Random.Range(0, 11));
         _ = sessionGame.Score;
         if (sessionGame.isFinished)
         {
             mainScreenView.ShowEndPanelGame();
-            
         }
 
         mainScreenView.Refresh();
@@ -28,7 +28,7 @@ public class MainScreenPresenter
 
     public Turn GetTurn(int i)
     {
-        var turns= sessionGame.GetTurns().ToArray();
+        var turns = sessionGame.GetTurns().ToArray();
         return turns[i];
     }
 
@@ -39,6 +39,11 @@ public class MainScreenPresenter
 
     public int GetActualTurnIndex()
     {
-       return sessionGame.GetActualTurnIndex;
+        return sessionGame.GetActualTurnIndex;
+    }
+
+    public void NewGame()
+    {
+        sessionGame = new SessionGame();
     }
 }

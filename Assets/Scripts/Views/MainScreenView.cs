@@ -41,6 +41,13 @@ public class MainScreenView : MonoBehaviour, IMainScreenView
         finalScore.text = "Your final score is: " + mainScreenPresenter.GetFinalScore().ToString();
     }
 
+    public void PlayAgain()
+    {
+        CleanScreen();
+        endGamePanel.SetActive(false);
+        mainScreenPresenter.NewGame();
+    }
+
     public void Refresh()
     {
         for (int i = 0; i < turns.Length; i++)
