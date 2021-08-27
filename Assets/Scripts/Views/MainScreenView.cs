@@ -17,11 +17,11 @@ public class MainScreenView : MonoBehaviour, IMainScreenView
     public void Awake()
     {
         mainScreenPresenter = new MainScreenPresenter(this);
-        CleanScreen();
     }
 
-    private void CleanScreen()
+    public void CleanScreen()
     {
+        endGamePanel.SetActive(false);
         for (int i = 0; i < turns.Length; i++)
         {
             turns[i].SetFirstShootScore("");
@@ -43,8 +43,6 @@ public class MainScreenView : MonoBehaviour, IMainScreenView
 
     public void PlayAgain()
     {
-        CleanScreen();
-        endGamePanel.SetActive(false);
         mainScreenPresenter.NewGame();
     }
 

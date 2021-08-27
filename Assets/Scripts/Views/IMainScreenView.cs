@@ -6,4 +6,5 @@ public interface IMainScreenView
 {
     void Refresh();
     void ShowEndPanelGame();
+    void CleanScreen();
 }

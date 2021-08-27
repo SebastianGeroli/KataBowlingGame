@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using UnityEngine;
 
 public class SessionGameShould
 {
@@ -40,4 +41,116 @@ public class SessionGameShould
         //Then
         Assert.AreEqual(expected, _session.Score);
     }
+
+    [Test]
+    public void Be_Finished_After_All_Turns_Completed_And_Last_One_Is_Not_Strike_Or_Spare()
+    {
+        //When
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(3);
+        _session.Shoot(4);
+        //Then
+        Assert.IsTrue(_session.IsFinished);
+    }
+    [Test]
+    public void Be_Finished_After_All_Turns_Completed_And_Last_One_Is_Strike()
+    {
+        //When
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        //Last Turn
+        _session.Shoot(10);
+        //Bonus Shoots
+        _session.Shoot(10);
+        _session.Shoot(10);
+        //Then
+        Assert.IsTrue(_session.IsFinished);
+    }
+    [Test]
+    public void Be_Finished_After_All_Turns_Completed_And_Last_One_Is_Spare()
+    {
+        //When
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        //Last Turn
+        _session.Shoot(3);
+        _session.Shoot(7);
+        //Bonus Shoot
+        _session.Shoot(10);
+        //Then
+        Assert.IsTrue(_session.IsFinished);
+    }
+
+    [Test]
+    public void Not_Be_Finished_If_Any_Of_The_Turns_Are_Not_Completed()
+    {
+        _session.Shoot(10);
+        _session.Shoot(3);
+        _session.Shoot(4);
+        //Then
+        Assert.IsFalse(_session.IsFinished);
+    }
+    [Test]
+    public void Not_Be_Finished_If_All_Turns_Completed_And_Last_One_Is_Strike_But_Bonus_Shoots_Have_Not_Been_Completed()
+    {
+        //When
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        //Last Turn
+        _session.Shoot(10);
+        //Bonus Shoots
+        _session.Shoot(10);
+        //Then
+        Assert.IsFalse(_session.IsFinished);
+    }
+    
+    [Test]
+    public void Not_Be_Finished_If_All_Turns_Completed_And_Last_One_Is_Spare_But_Bonus_Shoot_Has_Not_Been_Made()
+    {
+        //When
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        _session.Shoot(10);
+        //Last Turn
+        _session.Shoot(9);
+        _session.Shoot(1);
+        //Then
+        Assert.IsFalse(_session.IsFinished);
+    }
+
 }

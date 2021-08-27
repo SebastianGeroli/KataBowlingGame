@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using log4net.Util;
 
-public class SessionGame
+public class SessionGame : ISessionGame
 {
     int actualIndexTurn = 0;
     private Turn[] _turns = new Turn[10];
     private int _firstBonusShoot = 0;
     private int _secondBonusShoot = 0;
     public int Score => CalculateScore();
-    public bool isFinished => CheckSessionFinished();
+    public bool IsFinished => CheckSessionFinished();
     public int GetActualTurnIndex => actualIndexTurn;
 
     private bool CheckSessionFinished()
@@ -109,18 +109,19 @@ public class SessionGame
 
     public void Shoot(int amount)
     {
-        if (actualIndexTurn == 10)
+        
+        switch (actualIndexTurn)
         {
-            actualIndexTurn++;
-            _firstBonusShoot = amount;
-            return;
-        }
-
-        if (actualIndexTurn == 11)
-        {
-            actualIndexTurn++;
-            _secondBonusShoot = amount;
-            return;
+            case 10:
+                actualIndexTurn++;
+                _firstBonusShoot = amount;
+                CalculateScore();
+                return;
+            case 11:
+                actualIndexTurn++;
+                _secondBonusShoot = amount;
+                CalculateScore();
+                return;
         }
 
         if (_turns.Length <= actualIndexTurn) return;
@@ -133,6 +134,6 @@ public class SessionGame
         }
 
         _turns[actualIndexTurn].Shoot(amount);
-        return;
+        CalculateScore();
     }
 }
