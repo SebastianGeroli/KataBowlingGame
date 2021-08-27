@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 using NSubstitute;
 
 public class MainScreenPresenterShould
@@ -54,7 +55,45 @@ public class MainScreenPresenterShould
     [Test]
     public void Return_Always_A_Valid_Turn()
     {
+        var turns = new List<Turn>()
+        {
+            new Turn()
+        };
+
         //Given
-       // _sessionGame.GetTurns().Returns();
+        _sessionGame.GetTurns().Returns(turns);
+
+        //When
+        var turn1 = _mainScreenPresenter.GetTurn(-1);
+        var turn2 = _mainScreenPresenter.GetTurn(0);
+        var turn3 = _mainScreenPresenter.GetTurn(1);
+
+        //Then
+        Assert.AreNotEqual(null, turn1);
+        Assert.AreNotEqual(null, turn2);
+        Assert.AreNotEqual(null, turn3);
+    }
+
+    [Test]
+    public void Clean_The_Screen_When_Creating_A_New_Game()
+    {
+        //When
+        _mainScreenPresenter.NewGame();
+
+        //Then
+        _view.Received().CleanScreen();
+    }
+
+    [Test]
+    public void Return_Same_Index_As_Session()
+    {
+        //Given
+        _sessionGame.GetActualTurnIndex.Returns(3);
+
+        //When
+        var index = _mainScreenPresenter.GetActualTurnIndex();
+
+        //Then
+        Assert.AreEqual(3, index);
     }
 }

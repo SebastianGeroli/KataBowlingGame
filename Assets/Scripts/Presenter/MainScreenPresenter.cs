@@ -14,11 +14,9 @@ public class MainScreenPresenter
         _mainScreenView.CleanScreen();
     }
 
-    public MainScreenPresenter(IMainScreenView mainScreenView, ISessionGame sessionGame)
+    public MainScreenPresenter(IMainScreenView mainScreenView, ISessionGame sessionGame) : this(mainScreenView)
     {
-        _mainScreenView = mainScreenView;
         _sessionGame = sessionGame;
-        _mainScreenView.CleanScreen();
     }
 
 
@@ -36,6 +34,9 @@ public class MainScreenPresenter
     public Turn GetTurn(int i)
     {
         var turns = _sessionGame.GetTurns().ToArray();
+
+        if (i < 0 || i >= turns.Length) return new Turn();
+
         return turns[i];
     }
 
