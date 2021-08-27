@@ -5,45 +5,53 @@ using UnityEngine;
 
 public class MainScreenPresenter
 {
-    IMainScreenView mainScreenView;
-    private SessionGame sessionGame = new SessionGame();
+    private readonly IMainScreenView _mainScreenView;
+    private ISessionGame _sessionGame = new SessionGame();
 
     public MainScreenPresenter(IMainScreenView mainScreenView)
     {
-        this.mainScreenView = mainScreenView;
+        _mainScreenView = mainScreenView;
+        _mainScreenView.CleanScreen();
+    }
+
+    public MainScreenPresenter(IMainScreenView mainScreenView, ISessionGame sessionGame)
+    {
+        _mainScreenView = mainScreenView;
+        _sessionGame = sessionGame;
+        _mainScreenView.CleanScreen();
     }
 
 
     public void Shoot()
     {
-        sessionGame.Shoot(Random.Range(0, 11));
-        _ = sessionGame.Score;
-        if (sessionGame.isFinished)
+        _sessionGame.Shoot(Random.Range(0, 11));
+        if (_sessionGame.IsFinished)
         {
-            mainScreenView.ShowEndPanelGame();
+            _mainScreenView.ShowEndPanelGame();
         }
 
-        mainScreenView.Refresh();
+        _mainScreenView.Refresh();
     }
 
     public Turn GetTurn(int i)
     {
-        var turns = sessionGame.GetTurns().ToArray();
+        var turns = _sessionGame.GetTurns().ToArray();
         return turns[i];
     }
 
     public int GetFinalScore()
     {
-        return sessionGame.Score;
+        return _sessionGame.Score;
     }
 
     public int GetActualTurnIndex()
     {
-        return sessionGame.GetActualTurnIndex;
+        return _sessionGame.GetActualTurnIndex;
     }
 
     public void NewGame()
     {
-        sessionGame = new SessionGame();
+        _sessionGame = new SessionGame();
+        _mainScreenView.CleanScreen();
     }
 }
