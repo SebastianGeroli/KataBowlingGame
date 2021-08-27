@@ -50,7 +50,11 @@ public class MainScreenPresenterShould
         //Then
         Assert.AreEqual(_sessionGame.Score, _mainScreenPresenter.GetFinalScore());
     }
-    
-    // [Test]
-    // public void 
+
+    [Test]
+    public void Return_Always_A_Valid_Turn()
+    {
+        //Given
+       // _sessionGame.GetTurns().Returns();
+    }
 }
